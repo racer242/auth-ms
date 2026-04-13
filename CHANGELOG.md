@@ -20,3 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `.gitignore` following Node.js/NestJS best practices
 - `README.md` with comprehensive project documentation
 - Default unit test for `AppController`
+
+### Fixed
+
+- TypeScript compilation errors in config files (nullish coalescing for `parseInt`)

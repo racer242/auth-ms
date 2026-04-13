@@ -2,8 +2,11 @@ import { registerAs } from '@nestjs/config';
 
 export default registerAs('jwt', () => ({
   accessSecret: process.env.JWT_ACCESS_SECRET,
-  accessExpiry: parseInt(process.env.JWT_ACCESS_EXPIRY, 10) || 900,
+  accessExpiry: parseInt(process.env.JWT_ACCESS_EXPIRY ?? '900', 10),
   refreshSecret: process.env.JWT_REFRESH_SECRET,
-  refreshExpiry: parseInt(process.env.JWT_REFRESH_EXPIRY, 10) || 604800,
-  refreshExpiryRemember: parseInt(process.env.JWT_REFRESH_EXPIRY_REMEMBER, 10) || 2592000,
+  refreshExpiry: parseInt(process.env.JWT_REFRESH_EXPIRY ?? '604800', 10),
+  refreshExpiryRemember: parseInt(
+    process.env.JWT_REFRESH_EXPIRY_REMEMBER ?? '2592000',
+    10,
+  ),
 }));
