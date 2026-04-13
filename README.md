@@ -141,11 +141,14 @@ Health check: `http://localhost:3000/health`
 
 ### Redis
 
+- `REDIS_ENABLED` - включить Redis кэширование (`true`/`false`)
 - `REDIS_HOST` - хост Redis
 - `REDIS_PORT` - порт Redis (6379)
 - `REDIS_PASSWORD` - пароль Redis
 - `REDIS_DB` - номер БД Redis
 - `REDIS_TTL` - TTL для кэша по умолчанию
+
+> При `REDIS_ENABLED=false` приложение работает без Redis, все методы кэширования возвращают fallback-значения.
 
 ### JWT
 
@@ -262,7 +265,8 @@ npm run typeorm migration:revert
 - Создана структура директорий согласно ТЗ
 - Созданы базовые entities: BaseUser, CrmUser, PortalUser, Role, RefreshToken
 - Созданы DTO для авторизации
-- Создан comprehensive README.md
+- Добавлен параметр `REDIS_ENABLED` для включения/отключения кэширования
+- `RedisService` поддерживает graceful fallback при отключённом Redis
 
 ## License
 
