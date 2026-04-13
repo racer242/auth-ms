@@ -24,3 +24,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - TypeScript compilation errors in config files (nullish coalescing for `parseInt`)
+
+### Added
+
+- `REDIS_ENABLED` environment variable to toggle Redis caching on/off
+- Conditional Redis initialization: when `REDIS_ENABLED=false`, app runs without caching
+- `isEnabled()` method in `RedisService` for runtime cache availability checks
+- Graceful fallback in all Redis methods when caching is disabled
