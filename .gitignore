@@ -1,0 +1,94 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Testing
+coverage/
+test-results/
+.nyc_output/
+
+# Cache
+.eslintcache
+.prettiercache
+.cache/
+.turbo/
+
+# Build artifacts
+*.tsbuildinfo
+tsconfig.build.tsbuildinfo
+
+# Package manager lockfiles (choose one)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint config cache
+.eslintcache
+
+# Microfrontend cache
+.mf
+
+# Angular
+.angular/
+
+# Next.js
+.next/
+out/
+
+# Nuxt
+.nuxt/
+.nuxt-dev/
+
+# SvelteKit
+.svelte-kit/
+
+# Remix
+.build/
+
+# Astro
+dist/
+.astro/
+
+# Docker (optional)
+docker-compose.override.yml
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Temporary files
+tmp/
+temp/
+*.tmp
