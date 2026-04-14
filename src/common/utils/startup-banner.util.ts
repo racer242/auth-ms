@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 const W = 60;
 
 function row(label: string, value: string) {
-  return `║  ${(`${label}  ${value}`).padEnd(W - 4)}║`;
+  return `║  ${`${label}  ${value}`.padEnd(W - 2)}║`;
 }
 
 function divider() {
@@ -33,7 +33,9 @@ export function printStartupBanner(config: ConfigService, url: string) {
   console.log('');
   console.log(`╔${'═'.repeat(W)}╗`);
   const title = 'Auth Microservice — Startup';
-  console.log(`║${title.padStart(Math.floor((W + title.length) / 2)).padEnd(W)}║`);
+  console.log(
+    `║${title.padStart(Math.floor((W + title.length) / 2)).padEnd(W)}║`,
+  );
   console.log(divider());
 
   // App
@@ -59,7 +61,12 @@ export function printStartupBanner(config: ConfigService, url: string) {
   console.log(row('Redis', ''));
   console.log(row('Status', redisEnabled ? 'Enabled' : 'Disabled'));
   if (redisEnabled) {
-    console.log(row('Host', `${config.get<string>('redis.host')}:${config.get<number>('redis.port')}`));
+    console.log(
+      row(
+        'Host',
+        `${config.get<string>('redis.host')}:${config.get<number>('redis.port')}`,
+      ),
+    );
     console.log(row('DB', String(config.get<number>('redis.db'))));
     console.log(row('TTL', `${config.get<number>('redis.ttl')}s`));
   }
@@ -70,8 +77,12 @@ export function printStartupBanner(config: ConfigService, url: string) {
   console.log(emptyRow());
   console.log(row('JWT', ''));
   console.log(row('Access TTL', `${config.get<number>('jwt.accessExpiry')}s`));
-  console.log(row('Refresh TTL', `${config.get<number>('jwt.refreshExpiry')}s`));
-  console.log(row('Remember TTL', `${config.get<number>('jwt.refreshExpiryRemember')}s`));
+  console.log(
+    row('Refresh TTL', `${config.get<number>('jwt.refreshExpiry')}s`),
+  );
+  console.log(
+    row('Remember TTL', `${config.get<number>('jwt.refreshExpiryRemember')}s`),
+  );
   console.log(emptyRow());
   console.log(divider());
 
@@ -79,7 +90,9 @@ export function printStartupBanner(config: ConfigService, url: string) {
   console.log(emptyRow());
   console.log(row('Rate Limit', ''));
   console.log(row('General', `${throttleLimit} req / ${throttleTtl}ms`));
-  console.log(row('Auth Login', `${authThrottleLimit} req / ${authThrottleTtl}ms`));
+  console.log(
+    row('Auth Login', `${authThrottleLimit} req / ${authThrottleTtl}ms`),
+  );
   console.log(emptyRow());
   console.log(divider());
 

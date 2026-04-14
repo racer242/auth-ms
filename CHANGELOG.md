@@ -45,3 +45,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - `EXAMPLES.md` with API request examples organized by endpoint (3+ examples per endpoint, each with method, URL, headers, body)
+- Swagger UI at `/api/docs` with Bearer auth, tags, and descriptions
