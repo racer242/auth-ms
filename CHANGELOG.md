@@ -40,6 +40,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Expanded startup banner with sectioned layout: App, Database, Redis, JWT, Rate Limit, Swagger
+- Moved startup banner logic from `main.ts` to `src/common/utils/startup-banner.util.ts`
 
 ### Added
 
