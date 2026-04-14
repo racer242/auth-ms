@@ -40,3 +40,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Expanded startup banner with sectioned layout: App, Database, Redis, JWT, Rate Limit, Swagger
+
+### Added
+
+- `EXAMPLES.md` with API request examples organized by endpoint (3+ examples per endpoint, each with method, URL, headers, body)

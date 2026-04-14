@@ -5,7 +5,7 @@ import { AppModule } from './app.module';
 const W = 60;
 
 function row(label: string, value: string) {
-  return `║  ${`${label}  ${value}`.padEnd(W - 4)}║`;
+  return `║  ${`${label}  ${value}`.padEnd(W - 2)}║`;
 }
 
 function divider() {
