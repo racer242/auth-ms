@@ -36,3 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Application port now correctly reads from `APP_PORT` in `.env` via ConfigService
 - Added startup banner displaying current configuration (port, prefix, database, Redis, Swagger)
+
+### Changed
+
+- Expanded startup banner with sectioned layout: App, Database, Redis, JWT, Rate Limit, Swagger
