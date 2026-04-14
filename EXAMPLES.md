@@ -6,19 +6,19 @@
 
 ## Health Check
 
-### GET /health
+### GET /
 
 Проверка состояния сервиса.
 
 #### Example 1 — Service is healthy
 
 ```http
-GET /health
+GET /
 Host: localhost:3000
 ```
 
 **Response `200 OK`**
 
-```json
-"Hello World!"
+```text
+Hello World!
 ```

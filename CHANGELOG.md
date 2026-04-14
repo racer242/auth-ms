@@ -45,3 +45,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `EXAMPLES.md` with API request examples organized by endpoint (3+ examples per endpoint, each with method, URL, headers, body)
 - Swagger UI at `/api/docs` with Bearer auth, tags, and descriptions
+
+### Changed
+
+- **Scope changed:** сервис теперь управляет только Portal Users (CRM вынесен в отдельный микросервис)
+- Updated README.md to reflect portal-only scope (removed CRM endpoints and descriptions)
+- Simplified Swagger tags: auth, portal-users, health (removed crm-users, roles)

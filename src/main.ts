@@ -30,9 +30,7 @@ async function bootstrap() {
       'bearerAuth',
     )
     .addTag('auth', 'Authentication and authorization')
-    .addTag('crm-users', 'CRM user management')
     .addTag('portal-users', 'Portal user management')
-    .addTag('roles', 'Role management')
     .addTag('health', 'Health checks')
     .build();
 

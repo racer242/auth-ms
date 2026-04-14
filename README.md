@@ -1,6 +1,8 @@
 # Auth Microservice
 
-Микросервис авторизации и управления пользователями с поддержкой JWT аутентификации, ролей и блокировки пользователей.
+Микросервис авторизации и управления пользователями **портала** с поддержкой JWT аутентификации и блокировки пользователей.
+
+> **CRM-пользователи** управляются в отдельном микросервисе. Данный сервис отвечает только за пользователей портала.
 
 ## Технологический стек
 
@@ -17,21 +19,16 @@
 
 ## Архитектура
 
-Микросервис поддерживает два типа пользователей:
-
-- **CRM Users** - пользователи CRM системы с ролевой моделью
-- **Portal Users** - пользователи портала с персональными данными
-
-Разделение реализовано через Table-per-Type (TPT) паттерн с абстрактным базовым классом.
+Микросервис управляет **Portal Users** — пользователями портала с персональными данными (имя, дата рождения, адрес, locale, timezone и т.д.).
 
 ## Безопасность
 
 - **Аутентификация:** JWT (Access + Refresh tokens)
 - **Хэширование паролей:** Argon2id
-- **Refresh Token Rotation** - каждый update генерирует новый токен
-- **Redis Blacklist** - мгновенная инвалидация сессий при блокировке
-- **Rate Limiting** - защита от brute force атак
-- **Security Headers** - Helmet для HTTP headers
+- **Refresh Token Rotation** — каждый update генерирует новый токен
+- **Redis Blacklist** — мгновенная инвалидация сессий при блокировке
+- **Rate Limiting** — защита от brute force атак
+- **Security Headers** — Helmet для HTTP headers
 
 ## API Документация
 
@@ -41,39 +38,18 @@
 
 #### Auth
 
-- `POST /api/v1/auth/crm/login` - Вход для CRM пользователей
-- `POST /api/v1/auth/portal/login` - Вход для пользователей портала
-- `POST /api/v1/auth/portal/register` - Регистрация пользователя портала
-- `POST /api/v1/auth/refresh` - Обновление токенов (Rotation)
-- `POST /api/v1/auth/logout` - Выход (инвалидация refresh token)
-- `POST /api/v1/auth/logout-all` - Выход со всех устройств
-- `GET /api/v1/auth/verify` - Верификация access токена
-
-#### CRM Users (требуются роли admin/super_admin)
-
-- `GET /api/v1/crm/users` - Список CRM пользователей с пагинацией
-- `POST /api/v1/crm/users` - Создание CRM пользователя
-- `GET /api/v1/crm/users/:id` - Получение CRM пользователя
-- `PATCH /api/v1/crm/users/:id` - Обновление CRM пользователя
-- `DELETE /api/v1/crm/users/:id` - Мягкое удаление
-- `PATCH /api/v1/crm/users/:id/block` - Блокировка пользователя
-- `PATCH /api/v1/crm/users/:id/unblock` - Разблокировка
-- `POST /api/v1/crm/users/:id/roles` - Назначение роли
-- `DELETE /api/v1/crm/users/:id/roles/:roleSlug` - Снятие роли
+- `POST /api/v1/auth/portal/login` — Вход пользователя портала
+- `POST /api/v1/auth/portal/register` — Регистрация пользователя портала
+- `POST /api/v1/auth/refresh` — Обновление токенов (Rotation)
+- `POST /api/v1/auth/logout` — Выход (инвалидация refresh token)
+- `POST /api/v1/auth/logout-all` — Выход со всех устройств
+- `GET /api/v1/auth/verify` — Верификация access токена
 
 #### Portal Users
 
-- `GET /api/v1/portal/users/me` - Профиль текущего пользователя
-- `PATCH /api/v1/portal/users/me` - Обновление профиля
-- `PATCH /api/v1/portal/users/me/password` - Изменение пароля
-- `GET /api/v1/portal/users` (Admin only) - Список пользователей
-- `PATCH /api/v1/portal/users/:id/block` (Admin only) - Блокировка
-
-#### Roles
-
-- `GET /api/v1/crm/roles` - Список всех ролей
-- `POST /api/v1/crm/roles` - Создание роли
-- `PATCH /api/v1/crm/roles/:id` - Обновление роли
+- `GET /api/v1/portal/users/me` — Профиль текущего пользователя
+- `PATCH /api/v1/portal/users/me` — Обновление профиля
+- `PATCH /api/v1/portal/users/me/password` — Изменение пароля
 
 ## Установка и запуск
 
@@ -92,7 +68,7 @@
    cp .env.example .env
    ```
 
-4. Настройте переменные окружения ( PostgreSQL и Redis должны быть запущены)
+4. Настройте переменные окружения (PostgreSQL и Redis должны быть запущены)
 
 5. Запустите миграции:
 
@@ -125,57 +101,57 @@ Health check: `http://localhost:3000/health`
 
 ### App
 
-- `NODE_ENV` - окружение (development/production/test)
-- `APP_PORT` - порт приложения (3000)
-- `APP_PREFIX` - префикс API (api/v1)
+- `NODE_ENV` — окружение (development/production/test)
+- `APP_PORT` — порт приложения (3000)
+- `APP_PREFIX` — префикс API (api/v1)
 
 ### Database
 
-- `DB_HOST` - хост PostgreSQL
-- `DB_PORT` - порт PostgreSQL (5432)
-- `DB_NAME` - имя базы данных
-- `DB_USER` - пользователь БД
-- `DB_PASSWORD` - пароль БД
-- `DB_POOL_SIZE` - размер пула соединений
-- `DB_SSL` - использование SSL
+- `DB_HOST` — хост PostgreSQL
+- `DB_PORT` — порт PostgreSQL (5432)
+- `DB_NAME` — имя базы данных
+- `DB_USER` — пользователь БД
+- `DB_PASSWORD` — пароль БД
+- `DB_POOL_SIZE` — размер пула соединений
+- `DB_SSL` — использование SSL
 
 ### Redis
 
-- `REDIS_ENABLED` - включить Redis кэширование (`true`/`false`)
-- `REDIS_HOST` - хост Redis
-- `REDIS_PORT` - порт Redis (6379)
-- `REDIS_PASSWORD` - пароль Redis
-- `REDIS_DB` - номер БД Redis
-- `REDIS_TTL` - TTL для кэша по умолчанию
+- `REDIS_ENABLED` — включить Redis кэширование (`true`/`false`)
+- `REDIS_HOST` — хост Redis
+- `REDIS_PORT` — порт Redis (6379)
+- `REDIS_PASSWORD` — пароль Redis
+- `REDIS_DB` — номер БД Redis
+- `REDIS_TTL` — TTL для кэша по умолчанию
 
 > При `REDIS_ENABLED=false` приложение работает без Redis, все методы кэширования возвращают fallback-значения.
 
 ### JWT
 
-- `JWT_ACCESS_SECRET` - секрет access токена (мин. 64 символа)
-- `JWT_ACCESS_EXPIRY` - TTL access токена в секундах (900 = 15 мин)
-- `JWT_REFRESH_SECRET` - секрет refresh токена (мин. 64 символа)
-- `JWT_REFRESH_EXPIRY` - TTL refresh токена (604800 = 7 дней)
-- `JWT_REFRESH_EXPIRY_REMEMBER` - TTL при rememberMe (2592000 = 30 дней)
+- `JWT_ACCESS_SECRET` — секрет access токена (мин. 64 символа)
+- `JWT_ACCESS_EXPIRY` — TTL access токена в секундах (900 = 15 мин)
+- `JWT_REFRESH_SECRET` — секрет refresh токена (мин. 64 символа)
+- `JWT_REFRESH_EXPIRY` — TTL refresh токена (604800 = 7 дней)
+- `JWT_REFRESH_EXPIRY_REMEMBER` — TTL при rememberMe (2592000 = 30 дней)
 
 ### Security
 
-- `ARGON2_MEMORY` - память для Argon2 (65536)
-- `ARGON2_ITERATIONS` - итерации Argon2 (3)
-- `ARGON2_PARALLELISM` - параллелизм Argon2 (4)
+- `ARGON2_MEMORY` — память для Argon2 (65536)
+- `ARGON2_ITERATIONS` — итерации Argon2 (3)
+- `ARGON2_PARALLELISM` — параллелизм Argon2 (4)
 
 ### Rate Limit
 
-- `THROTTLE_TTL` - окно rate limiting (60000 мс)
-- `THROTTLE_LIMIT` - лимит запросов (100)
-- `AUTH_THROTTLE_LOGIN_TTL` - окно для login (60000 мс)
-- `AUTH_THROTTLE_LOGIN_LIMIT` - лимит login попыток (5)
+- `THROTTLE_TTL` — окно rate limiting (60000 мс)
+- `THROTTLE_LIMIT` — лимит запросов (100)
+- `AUTH_THROTTLE_LOGIN_TTL` — окно для login (60000 мс)
+- `AUTH_THROTTLE_LOGIN_LIMIT` — лимит login попыток (5)
 
 ### Swagger
 
-- `SWAGGER_ENABLED` - включить Swagger
-- `SWAGGER_TITLE` - заголовок Swagger
-- `SWAGGER_VERSION` - версия API
+- `SWAGGER_ENABLED` — включить Swagger
+- `SWAGGER_TITLE` — заголовок Swagger
+- `SWAGGER_VERSION` — версия API
 
 ## Структура проекта
 
@@ -192,6 +168,7 @@ auth-microservice/
 │   │   ├── interceptors/     # Interceptors (Logging)
 │   │   ├── pipes/            # Validation pipes
 │   │   ├── services/         # Общие сервисы (Redis)
+│   │   ├── utils/            # Утилиты (startup-banner)
 │   │   └── types/            # Общие типы
 │   ├── database/             # Миграции и сиды
 │   │   ├── migrations/
@@ -199,18 +176,15 @@ auth-microservice/
 │   └── modules/              # Модули приложения
 │       ├── auth/             # Аутентификация
 │       ├── users/            # Базовые пользователи
-│       ├── crm-users/        # CRM пользователи
 │       ├── portal-users/     # Портал пользователи
-│       ├── roles/            # Роли и permissions
 │       └── tokens/           # Refresh токены
 ├── test/                     # Тесты
-│   ├── auth.e2e-spec.ts
-│   ├── crm-users.e2e-spec.ts
-│   └── portal-users.e2e-spec.ts
 ├── docker/                   # Docker конфигурация
 │   ├── Dockerfile
 │   └── docker-compose.yml
 ├── .env.example
+├── EXAMPLES.md
+├── CHANGELOG.md
 └── README.md
 ```
 
@@ -242,31 +216,31 @@ npm run typeorm migration:revert
 
 ## Health Checks
 
-`GET /health` - проверка состояния сервиса
+`GET /health` — проверка состояния сервиса
 
 ```json
-{
-  "status": "ok",
-  "info": {
-    "database": { "status": "up" },
-    "redis": { "status": "up" }
-  }
-}
+"Hello World!"
 ```
 
 ## Обновления
 
-### Этап 1 - Инициализация проекта ✅
+### Этап 1 — Инициализация проекта ✅
 
 - Создан NestJS проект с нужной структурой
 - Установлены все зависимости
 - Настроен ConfigModule с валидацией .env
 - Настроен TypeORM + Redis
 - Создана структура директорий согласно ТЗ
-- Созданы базовые entities: BaseUser, CrmUser, PortalUser, Role, RefreshToken
+- Созданы базовые entities: BaseUserEntity, CrmUserEntity, PortalUserEntity, RoleEntity, RefreshTokenEntity
 - Созданы DTO для авторизации
 - Добавлен параметр `REDIS_ENABLED` для включения/отключения кэширования
 - `RedisService` поддерживает graceful fallback при отключённом Redis
+- Добавлен параметр `APP_PORT` в .env для настройки порта
+- Добавлен стартовый баннер с отображением конфигурации (App, Database, Redis, JWT, Rate Limit, Swagger)
+- Стартовый баннер вынесен в отдельную утилиту `src/common/utils/startup-banner.util.ts`
+- Добавлен Swagger UI по адресу `/api/docs` с Bearer auth
+- `EXAMPLES.md` очищен и заполняется только готовыми эндпоинтами
+- Фокус сервиса изменён: только Portal Users (CRM вынесен в отдельный микросервис)
 
 ## License
 
